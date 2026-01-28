@@ -52,11 +52,6 @@ This modernized version (v2.0) features a complete rewrite with proper OOP archi
 - **ISXEVE Extension** - EVE Online interface extension for InnerSpace
 - **EVE Online** - Active EVE Online client
 
-**Note**: This script currently requires the TEST version of ISXEVE. Install it via the LavishSoft console:
-```
-ISXEVE:InstallTest
-```
-
 ### Ship Setup
 - Appropriate Abyssal-capable ship (Gila, Hawk, Worm, etc.)
 - Fitted weapons appropriate for Abyssal content
@@ -83,11 +78,6 @@ ISXEVE:InstallTest
    ├── AbyssalMonkey.json    ; LGUI2 UI definition
    ├── fit.txt               ; Recommended ship fit
    └── README.md             ; This file
-   ```
-
-3. **Install Test ISXEVE**:
-   ```
-   ISXEVE:InstallTest
    ```
 
 4. **Restart**: Close EVE client and launcher, then restart both.
@@ -245,7 +235,6 @@ AbyssalMonkey is designed to work with various Abyssal-capable ships. See `fit.t
 
 ### Script Won't Start
 - Verify ISXEVE is loaded: Check for "ISXEVE" in console
-- Ensure you have TEST version: `ISXEVE:InstallTest`
 - Ensure EVE is running and logged in
 - Check that you're docked at a station
 
@@ -270,11 +259,6 @@ AbyssalMonkey is designed to work with various Abyssal-capable ships. See `fit.t
 - Verify MTU name matches exactly
 - Ensure MTU is in cargo
 - Check that MTU isn't already deployed
-
-### After EVE Patch
-- Wait for Cyber to update the test version of ISXEVE (may take a couple days)
-- Reinstall test version: `ISXEVE:InstallTest`
-- Restart EVE client and launcher
 
 ### Common Error Messages
 
@@ -347,10 +331,3 @@ Enable debug logging for detailed output:
 - **ISXEVE**: Lavish Software
 - **EVE Online**: CCP Games
 
-## License
-
-This script is provided as-is for educational and personal use. Use at your own risk. Automated gameplay may violate EVE Online's Terms of Service.
-
-## Disclaimer
-
-This script automates gameplay in EVE Online. Use of automation tools may result in account action by CCP Games. The authors are not responsible for any consequences resulting from the use of this script. Always review and understand EVE Online's EULA and Terms of Service before using automation tools.

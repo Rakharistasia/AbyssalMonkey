@@ -1,11 +1,40 @@
-Abyssal Monkey is origionally developed by kwevin & others from the isxgames discord 
+Abyssal Monkey is origionally developed by kwevin & others from the isxgames discord
 Special thanks for Noobbotter, without his help this update would not have gotten this far.
-Current Dev: Lost in Space ( isxgames Discord )
+Current Dev: abandoned
+v2.0 Modernization: Claude AI
 
-Start script: Run AbyssalMonkey
+Start script: Run AbyssalMonkey/AbyssalMonkey
 End Script: End AbyssalMonkey
 
-Current Version 1.4.7
+Current Version 2.0.0
+
+=== Version 2.0.0 - Complete Rewrite ===
+Architecture:
+- Complete OOP rewrite using objectdef pattern
+- State machine with obj_StateQueue (17 states for full automation)
+- obj_AbyssalConfig for LavishSettings XML persistence
+- obj_Logger with configurable levels (CRITICAL/WARNING/INFO/DEBUG)
+- Event-driven pulse system using ISXEVE_onFrame attachment
+
+New Features:
+- LGUI2 modern UI (AbyssalMonkey.json) with settings panels
+- Real-time status display (state, runs, ship HP/cap)
+- Drug support with cooldown tracking (Agency Hardshell, Blue Pill, Exile, etc.)
+- MTU deployment and retrieval
+- Module overheating with heat damage monitoring
+- Primary and secondary ammo type support
+- Improved drone management with fallback types
+- Corp hangar and station container support
+
+Code Quality Improvements:
+- Proper ISXEVE.IsReady initialization checks
+- (exists) validation on all object/entity access
+- Timeout handling for all wait operations
+- Error state recovery
+- Removed magic numbers (named constants)
+- Proper naming conventions
+
+=== Legacy Versions ===
 1.4.8 - Fixed Drone stacking
 1.4.7 - Added more config stuff for Bookmarks
 1.4.6 - Changed name from Abyss.iss to AbyssalMonkey.iss
@@ -15,14 +44,14 @@ Current Version 1.4.7
 1.3.0 - Added more logging throughout the process ( still need to add much more )
 1.2.5 - revised drone range to 80k
 1.2.0 - Updated drone range & timing ( needs to be setup )
-1.1.5 - enabled top module ( missles ) 
+1.1.5 - enabled top module ( missles )
 1.1.0 - Fixed Filament use & activation
 1.0.0 - Base code provided by kwevin from isxeve discord
 
 Future Notes
-Drug Support
-Complete re-write for better timing less timing involved statements in the code.
-Support for running multiple abysses in a row before returning to station
+- Fleet support (duo/trio abyssals)
+- Target priority system based on NPC threat level
+- Automatic ship fitting from saved fits
 
 
 Filament to Drone Information
