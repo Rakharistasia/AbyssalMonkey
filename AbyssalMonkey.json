@@ -1,0 +1,649 @@
+{
+    "$schema": "http://www.lavishsoft.com/schema/lgui2Package.json",
+    "elements": [
+        {
+            "type": "window",
+            "name": "AbyssalMonkey.MainWindow",
+            "title": "AbyssalMonkey v2.0",
+            "x": 100,
+            "y": 100,
+            "width": 450,
+            "height": 650,
+            "minSize": [400, 500],
+            "content": {
+                "type": "dockpanel",
+                "children": [
+                    {
+                        "_dock": "top",
+                        "type": "panel",
+                        "height": 50,
+                        "margin": [5, 5, 5, 5],
+                        "children": [
+                            {
+                                "type": "stackpanel",
+                                "orientation": "horizontal",
+                                "horizontalAlignment": "center",
+                                "children": [
+                                    {
+                                        "type": "button",
+                                        "name": "btnStart",
+                                        "width": 100,
+                                        "height": 40,
+                                        "margin": [5, 0, 5, 0],
+                                        "content": "Start",
+                                        "eventHandlers": {
+                                            "onPress": {
+                                                "type": "code",
+                                                "code": "AbyssalMonkey:Start"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "button",
+                                        "name": "btnStop",
+                                        "width": 100,
+                                        "height": 40,
+                                        "margin": [5, 0, 5, 0],
+                                        "content": "Stop",
+                                        "eventHandlers": {
+                                            "onPress": {
+                                                "type": "code",
+                                                "code": "AbyssalMonkey:Stop"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "button",
+                                        "name": "btnPause",
+                                        "width": 100,
+                                        "height": 40,
+                                        "margin": [5, 0, 5, 0],
+                                        "content": "Pause",
+                                        "eventHandlers": {
+                                            "onPress": {
+                                                "type": "code",
+                                                "code": "if ${AbyssalMonkey.IsPaused}\n{\n\tAbyssalMonkey:Resume\n\tThis:SetText[Pause]\n}\nelse\n{\n\tAbyssalMonkey:Pause\n\tThis:SetText[Resume]\n}"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "_dock": "bottom",
+                        "type": "panel",
+                        "height": 100,
+                        "margin": [5, 5, 5, 5],
+                        "borderThickness": 1,
+                        "borderBrush": {
+                            "color": "#444444"
+                        },
+                        "children": [
+                            {
+                                "type": "stackpanel",
+                                "orientation": "vertical",
+                                "margin": [5, 5, 5, 5],
+                                "children": [
+                                    {
+                                        "type": "textblock",
+                                        "name": "txtStatus",
+                                        "text": "Status: Idle",
+                                        "textBinding": {
+                                            "pullFormat": "Status: ${AbyssalMonkey.StateManager.CurrentState}"
+                                        },
+                                        "font": {
+                                            "height": 14,
+                                            "bold": true
+                                        }
+                                    },
+                                    {
+                                        "type": "textblock",
+                                        "name": "txtLoopCount",
+                                        "textBinding": {
+                                            "pullFormat": "Runs: ${AbyssalMonkey.CurrentLoop} / ${AbyssalMonkey.Config.LoopCount}"
+                                        }
+                                    },
+                                    {
+                                        "type": "textblock",
+                                        "name": "txtShipStatus",
+                                        "textBinding": {
+                                            "pullFormat": "Ship: Shield ${MyShip.ShieldPct}% | Armor ${MyShip.ArmorPct}% | Cap ${MyShip.CapacitorPct}%"
+                                        }
+                                    },
+                                    {
+                                        "type": "textblock",
+                                        "name": "txtLocation",
+                                        "textBinding": {
+                                            "pullFormat": "Location: ${If[${Me.InStation}, Station, ${If[${Me.InSpace}, Space, Unknown]}]}"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "_dock": "fill",
+                        "type": "scrollviewer",
+                        "verticalScrollBarVisibility": "auto",
+                        "content": {
+                            "type": "stackpanel",
+                            "orientation": "vertical",
+                            "margin": [10, 5, 10, 5],
+                            "children": [
+                                {
+                                    "type": "textblock",
+                                    "text": "Filament Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 5, 0, 5]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Filament Type:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtFilamentType",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.FilamentType}",
+                                                "pushFormat": ["AbyssalMonkey.Config.FilamentType:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Loop Count:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtLoopCountSetting",
+                                            "width": 80,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.LoopCount}",
+                                                "pushFormat": ["AbyssalMonkey.Config.LoopCount:Set[", "]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textblock",
+                                    "text": "Ammo Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 15, 0, 5]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Primary Ammo:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtPrimaryAmmo",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.PrimaryAmmo}",
+                                                "pushFormat": ["AbyssalMonkey.Config.PrimaryAmmo:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Secondary Ammo:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtSecondaryAmmo",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.SecondaryAmmo}",
+                                                "pushFormat": ["AbyssalMonkey.Config.SecondaryAmmo:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Ammo Amount:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtAmmoAmount",
+                                            "width": 80,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.AmmoAmount}",
+                                                "pushFormat": ["AbyssalMonkey.Config.AmmoAmount:Set[", "]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Ammo Range (m):",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtAmmoRange",
+                                            "width": 80,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.AmmoRange}",
+                                                "pushFormat": ["AbyssalMonkey.Config.AmmoRange:Set[", "]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textblock",
+                                    "text": "Drone Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 15, 0, 5]
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "name": "chkUseDrones",
+                                    "content": "Use Drones",
+                                    "margin": [0, 2, 0, 2],
+                                    "checkedBinding": {
+                                        "pullFormat": "${AbyssalMonkey.Config.UseDrones}",
+                                        "pushFormat": ["AbyssalMonkey.Config.UseDrones:Set[", "]"]
+                                    }
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Drone Type:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtDroneType",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.DroneType}",
+                                                "pushFormat": ["AbyssalMonkey.Config.DroneType:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Fallback Drone:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtFallbackDrone",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.FallbackDroneType}",
+                                                "pushFormat": ["AbyssalMonkey.Config.FallbackDroneType:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Drone Range (m):",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtDroneRange",
+                                            "width": 80,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.DroneRange}",
+                                                "pushFormat": ["AbyssalMonkey.Config.DroneRange:Set[", "]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textblock",
+                                    "text": "Drug Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 15, 0, 5]
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "name": "chkUseDrugs",
+                                    "content": "Use Combat Drugs",
+                                    "margin": [0, 2, 0, 2],
+                                    "checkedBinding": {
+                                        "pullFormat": "${AbyssalMonkey.Config.UseDrugs}",
+                                        "pushFormat": ["AbyssalMonkey.Config.UseDrugs:Set[", "]"]
+                                    }
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Drug 1:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtDrug1",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.Drug1}",
+                                                "pushFormat": ["AbyssalMonkey.Config.Drug1:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Drug 2:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtDrug2",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.Drug2}",
+                                                "pushFormat": ["AbyssalMonkey.Config.Drug2:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textblock",
+                                    "text": "MTU Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 15, 0, 5]
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "name": "chkUseMTU",
+                                    "content": "Use Mobile Tractor Unit",
+                                    "margin": [0, 2, 0, 2],
+                                    "checkedBinding": {
+                                        "pullFormat": "${AbyssalMonkey.Config.UseMTU}",
+                                        "pushFormat": ["AbyssalMonkey.Config.UseMTU:Set[", "]"]
+                                    }
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "MTU Type:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtMTUType",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.MTUType}",
+                                                "pushFormat": ["AbyssalMonkey.Config.MTUType:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textblock",
+                                    "text": "Overheat Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 15, 0, 5]
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "name": "chkUseOverheat",
+                                    "content": "Enable Weapon Overheating",
+                                    "margin": [0, 2, 0, 2],
+                                    "checkedBinding": {
+                                        "pullFormat": "${AbyssalMonkey.Config.UseOverheat}",
+                                        "pushFormat": ["AbyssalMonkey.Config.UseOverheat:Set[", "]"]
+                                    }
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "HP Threshold (%):",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtOverheatThreshold",
+                                            "width": 80,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.OverheatHPThreshold}",
+                                                "pushFormat": ["AbyssalMonkey.Config.OverheatHPThreshold:Set[", "]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Nanite Paste Amt:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtNanitePaste",
+                                            "width": 80,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.NanitePasteAmount}",
+                                                "pushFormat": ["AbyssalMonkey.Config.NanitePasteAmount:Set[", "]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textblock",
+                                    "text": "Bookmark Settings",
+                                    "font": {
+                                        "height": 14,
+                                        "bold": true
+                                    },
+                                    "margin": [0, 15, 0, 5]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Home Bookmark:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtHomeBookmark",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.HomeBookmark}",
+                                                "pushFormat": ["AbyssalMonkey.Config.HomeBookmark:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "stackpanel",
+                                    "orientation": "horizontal",
+                                    "margin": [0, 2, 0, 2],
+                                    "children": [
+                                        {
+                                            "type": "textblock",
+                                            "text": "Abyss Bookmark:",
+                                            "width": 120,
+                                            "verticalAlignment": "center"
+                                        },
+                                        {
+                                            "type": "textbox",
+                                            "name": "txtAbyssBookmark",
+                                            "width": 200,
+                                            "height": 24,
+                                            "acceptsKeyboardFocus": true,
+                                            "textBinding": {
+                                                "pullFormat": "${AbyssalMonkey.Config.AbyssSiteBookmark}",
+                                                "pushFormat": ["AbyssalMonkey.Config.AbyssSiteBookmark:Set[\"", "\"]"]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "panel",
+                                    "height": 50,
+                                    "margin": [0, 20, 0, 10],
+                                    "children": [
+                                        {
+                                            "type": "button",
+                                            "name": "btnSaveConfig",
+                                            "width": 150,
+                                            "height": 35,
+                                            "horizontalAlignment": "center",
+                                            "content": "Save Configuration",
+                                            "eventHandlers": {
+                                                "onPress": {
+                                                    "type": "code",
+                                                    "code": "AbyssalMonkey.Config:Save\necho \"Configuration saved!\""
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
